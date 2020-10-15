@@ -7,25 +7,25 @@ namespace Xamarin.Essentials.Background
 {
     public class BackgroundService
     {
+        static readonly object isRunning = new object();
         static nint taskId;
-        static bool isRunning;
 
         /// <summary>
         /// Start the execution of background service
         /// </summary>
         public static void Start()
         {
-            if (isRunning)
-                return;
-
-            taskId = UIApplication.SharedApplication.BeginBackgroundTask("BackgroundTask", Stop);
-            Background.StartJobs();
-
-            isRunning = true;
+            lock (isRunning)
+            {
+                taskId = UIApplication.SharedApplication.BeginBackgroundTask("BackgroundTask", Stop);
+                Background.StartJobs();
+                UIApplication.SharedApplication.EndBackgroundTask(taskId);
+            }
         }
 
         public static void Stop()
         {
+            UIApplication.SharedApplication.EndBackgroundTask(taskId);
         }
     }
 }
