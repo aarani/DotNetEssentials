@@ -27,6 +27,11 @@ namespace Xamarin.Essentials.Background
         {
             Task.WhenAll(schedules.Values.Select(x => x.StartJob()));
         }
+
+        public static void StartBackgroundTask()
+        {
+            PlatformStart();
+        }
     }
 
     public interface IBackgroundTask

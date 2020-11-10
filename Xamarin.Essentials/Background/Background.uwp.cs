@@ -10,7 +10,7 @@ namespace Xamarin.Essentials.Background
     {
         const string backServiceName = "Xamarin.Essentials.Background.BackgroundService";
 
-        public static void StartBackgroundService()
+        internal static void PlatformStart()
         {
             Task.Run(StartBackgroundServiceAsync);
         }

@@ -7,7 +7,7 @@ namespace Xamarin.Essentials.Background
 {
     public static partial class Background
     {
-        public static void StartBackgroundService()
+        internal static void PlatformStart()
         {
             BackgroundService.Start();
         }

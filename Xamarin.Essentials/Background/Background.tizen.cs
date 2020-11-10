@@ -6,7 +6,7 @@ namespace Xamarin.Essentials.Background
 {
     public partial class Background
     {
-        public static void StartBackgroundService()
+        internal static void PlatformStart()
         {
             // TODO: https://docs.tizen.org/application/native/guides/applications/service-app/
             throw new NotImplementedException();
