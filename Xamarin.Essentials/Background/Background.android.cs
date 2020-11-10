@@ -14,7 +14,7 @@ namespace Xamarin.Essentials.Background
             context = ctx;
         }
 
-        public static void StartBackgroundService(ContextWrapper context)
+        public static void StartBackgroundService()
         {
             if (context == null)
                 throw new InvalidOperationException("Background service is not initialized yet");
