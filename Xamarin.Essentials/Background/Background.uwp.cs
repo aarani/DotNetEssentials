@@ -1,18 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Background;
 
 namespace Xamarin.Essentials.Background
 {
     public static partial class Background
     {
-        const string backServiceName = "Xamarin.Essentials.Background.BackgroundService";
+        const string backServiceName = "BackgroundService";
 
         internal static void PlatformStart()
         {
             Task.Run(StartBackgroundServiceAsync);
+        }
+
+        public static async Task OnBackgroundActivated(BackgroundActivatedEventArgs args)
+        {
+            var deferral = args.TaskInstance.GetDeferral();
+            await StartJobs();
+            deferral.Complete();
         }
 
         static async Task StartBackgroundServiceAsync()
@@ -27,17 +36,29 @@ namespace Xamarin.Essentials.Background
                     return;
             }
 
-            var task = new BackgroundTaskBuilder
+            var builder = new BackgroundTaskBuilder
             {
                 Name = backServiceName,
-                TaskEntryPoint = backServiceName
+                IsNetworkRequested = true
             };
 
             var trigger = new ApplicationTrigger();
-            task.SetTrigger(trigger);
+            builder.SetTrigger(trigger);
 
-            task.Register();
+            var isAlreadyRegistered = BackgroundTaskRegistration.AllTasks.Any(t => t.Value?.Name == "BackgroundService");
+            if (isAlreadyRegistered)
+            {
+                foreach (var tsk in BackgroundTaskRegistration.AllTasks)
+                {
+                    if (tsk.Value.Name == "BackgroundService")
+                    {
+                        tsk.Value.Unregister(true);
+                        break;
+                    }
+                }
+            }
 
+            builder.Register();
             await trigger.RequestAsync();
         }
     }
