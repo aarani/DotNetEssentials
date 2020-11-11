@@ -28,7 +28,7 @@ namespace Xamarin.Essentials.Background
             return Task.WhenAll(schedules.Values.Select(x => x.StartJob()));
         }
 
-        public static void StartBackgroundTask()
+        public static void StartBackgroundWork()
         {
             PlatformStart();
         }
