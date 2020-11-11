@@ -23,9 +23,9 @@ namespace Xamarin.Essentials.Background
                 schedules.Add(typeName, schedule());
         }
 
-        internal static void StartJobs()
+        internal static Task StartJobs()
         {
-            Task.WhenAll(schedules.Values.Select(x => x.StartJob()));
+            return Task.WhenAll(schedules.Values.Select(x => x.StartJob()));
         }
 
         public static void StartBackgroundTask()
