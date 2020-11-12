@@ -34,7 +34,7 @@ namespace Xamarin.Essentials.Background
                 case BackgroundAccessStatus.DeniedByUser:
                 case BackgroundAccessStatus.DeniedBySystemPolicy:
                     await StartJobs();
-                    break;
+                    return;
             }
 
             var builder = new BackgroundTaskBuilder
