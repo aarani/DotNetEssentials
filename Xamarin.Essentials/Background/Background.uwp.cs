@@ -46,12 +46,12 @@ namespace Xamarin.Essentials.Background
             var trigger = new ApplicationTrigger();
             builder.SetTrigger(trigger);
 
-            var isAlreadyRegistered = BackgroundTaskRegistration.AllTasks.Any(t => t.Value?.Name == "BackgroundService");
+            var isAlreadyRegistered = BackgroundTaskRegistration.AllTasks.Any(t => t.Value?.Name == backServiceName);
             if (isAlreadyRegistered)
             {
                 foreach (var tsk in BackgroundTaskRegistration.AllTasks)
                 {
-                    if (tsk.Value.Name == "BackgroundService")
+                    if (tsk.Value.Name == backServiceName)
                     {
                         tsk.Value.Unregister(true);
                         break;
